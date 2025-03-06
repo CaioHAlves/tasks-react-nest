@@ -5,6 +5,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*', // Permite qualquer origem
+    // origin: ['htt://exemplo.com'], // Permite origins que você queira apenas
+  });
+
   // Configuração do Swagger
   const config = new DocumentBuilder()
     .setTitle('Task Manager API')
