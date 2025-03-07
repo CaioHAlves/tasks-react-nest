@@ -52,7 +52,7 @@ export const Dashboard = () => {
         <FieldNewTask />
         <ol>
           {loading ? <CircularProgress /> : tasks.items.map((item) => (
-            <li key={item.id} className='itens-tasks'>
+            <li key={item.id} className={`itens-tasks ${item.completed ? "completed" : ""}`}>
               {item.title}
               <div className='list-actions'>
                 <ButtonDelete taskId={item.id} taskName={item.title} />
