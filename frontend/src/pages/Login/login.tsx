@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './login.css'
+import { useRedux } from "../../hooks/useRedux";
+import { setUser } from "../../redux/modules/user";
 
 type FormData = {
   email: string;
@@ -13,6 +15,7 @@ export const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const location = useLocation();
   const navigate = useNavigate();
+  const { dispatch } = useRedux()
   const [errorMessage, setErrorMessage] = useState("");
 
   const isLogin = location.pathname == "/"
@@ -23,7 +26,7 @@ export const Login = () => {
     axios.post(`http://localhost:3001${url}`, data)
       .then(response => {
         if (isLogin) {
-          localStorage.setItem("token", response.data.accessToken);
+          dispatch(setUser(response.data.accessToken))
         }
         navigate(isLogin ? '/dashboard' : '/');
       })

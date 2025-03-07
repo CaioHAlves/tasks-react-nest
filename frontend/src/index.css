@@ -9,7 +9,7 @@ html, body {
   width: 100vw;
   height: 100vh;
 
-  color: rgba(255, 255, 255, 0.87);
+  color: #ffffffde;
   background-color: #242424;
 }
 
@@ -22,4 +22,21 @@ html, body {
 
 button:hover {
   cursor: pointer;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+}
+
+.form-control label {
+  margin: 0 0 4px 0;
+}
+
+input {
+  min-height: 30px;
+  padding: 0 16px;
+  border: #000;
+  border-radius: 4px;
 }

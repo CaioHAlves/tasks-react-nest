@@ -51,3 +51,12 @@
   padding: 20px 24px;
   overflow: auto;
 }
+
+.itens-tasks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 16px;
+  border-bottom: 1px solid #ffffffde;
+}

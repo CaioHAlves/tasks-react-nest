@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CircularProgress, Dialog } from '@mui/material'
-import { useTasks } from '../../hooks/useTasks';
+import axios from 'axios';
+import { useRedux } from '../../hooks/useRedux';
+import { removeTask } from '../../redux/modules/tasks';
+import './styles.css'
 
 interface IProps {
   taskId: number;
@@ -10,15 +13,18 @@ interface IProps {
 
 export function ButtonDelete({ taskId, taskName }: IProps) {
 
-  const { deleteTask } = useTasks()
+  const { reduxState: { user }, dispatch } = useRedux()
 
   const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
 
   const handleDelete = () => {
     setLoading(true)
-    deleteTask(taskId)
+    axios.delete(`http://localhost:3001/tasks/${taskId}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    })
       .then(() => {
+        dispatch(removeTask(taskId))
         handleOpenModal()
       })
       .catch(() => {
@@ -33,21 +39,21 @@ export function ButtonDelete({ taskId, taskName }: IProps) {
 
   return (
     <>
-      <button onClick={handleOpenModal}>
+      <button onClick={handleOpenModal} className='button-delete'>
         <DeleteIcon />
       </button>
       <Dialog onClose={openModal ? undefined : handleOpenModal} open={openModal}>
-        <span>Deseja deletar esta tarefa?</span>
+        <span className='info-modal-delete'>Deseja deletar esta tarefa?</span>
 
         {taskName ? <span>{taskName}</span> : null}
 
         <div className='actions-modal'>
           {loading ? <CircularProgress /> :
             <>
-              <button onClick={handleOpenModal}>
+              <button onClick={handleOpenModal} className='cancel'>
                 Não
               </button>
-              <button onClick={handleDelete}>
+              <button onClick={handleDelete} className='confirm'>
                 Sim
               </button>
             </>

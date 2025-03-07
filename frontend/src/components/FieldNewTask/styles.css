@@ -1,0 +1,22 @@
+.field-new-task {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 24px;
+  gap: 8px;
+}
+
+.field-new-task input {
+  flex: 1;
+  height: 40px; 
+}
+
+.field-new-task button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+}

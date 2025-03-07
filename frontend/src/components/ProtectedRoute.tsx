@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRedux } from "../hooks/useRedux";
 
 interface IProps {
   children: React.ReactNode;
 }
 
 export const ProtectedRoute = ({ children }: IProps) => {
-  const token = localStorage.getItem("token");
+  const { reduxState: { user: { token } } } = useRedux()
   const navigate = useNavigate();
 
   useEffect(() => {

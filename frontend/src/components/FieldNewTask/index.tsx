@@ -1,12 +1,12 @@
 import axios from "axios"
 import { ChangeEvent, useState } from "react"
-import { useTasks } from "../../hooks/useTasks";
+import { useRedux } from "../../hooks/useRedux";
+import { addTask } from "../../redux/modules/tasks";
+import './styles.css';
 
 export function FieldNewTask() {
 
-  const token = localStorage.getItem("token");
-
-  const { loadingTasks } = useTasks()
+  const { dispatch, reduxState: { user } } = useRedux()
 
   const [value, setValue] = useState("")
 
@@ -15,20 +15,20 @@ export function FieldNewTask() {
     setValue(event.target.value)
   }
 
-  const addTask = () => {
+  const clickAddTask = () => {
     axios.post("http://localhost:3001/tasks", {
       title: value,
       completed: false
     },
     {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${user.token}`
       }
     }
     )
-    .then(() => {
+    .then((res) => {
       setValue("")
-      loadingTasks()
+      dispatch(addTask(res.data))
     })
     .catch(() => {
       console.log("Erro ao criar tarefa!")
@@ -36,9 +36,9 @@ export function FieldNewTask() {
   }
 
   return (
-    <div>
+    <div className="field-new-task">
       <input placeholder="Nova tarefa" value={value} onChange={changeInput}/>
-      <button onClick={addTask}>
+      <button onClick={clickAddTask}>
         Adicionar
       </button>
     </div>
